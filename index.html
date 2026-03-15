@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Immersive Portfolio</title>
+  
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      background: #111;
+      color: #fff;
+      padding: 15px 40px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    .navbar .logo {
+      font-size: 26px;
+      font-weight: 700;
+    }
+    .nav-links li {
+      display: inline;
+      list-style: none;
+      margin: 0 15px;
+    }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .nav-links a:hover {
+      color: #1abc9c;
+      transition: 0.3s;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 90vh;
+      background: linear-gradient(135deg, #4a90e2, #1abc9c);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+      color: white;
+      margin-top: 60px; /* because navbar is fixed */
+    }
+    .hero h1 span {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 8px;
+      animation: neon 2s infinite alternate;
+    }
+    @keyframes neon {
+      from { text-shadow: 0 0 8px #fff, 0 0 20px #4a90e2; }
+      to { text-shadow: 0 0 15px #fff, 0 0 28px #1abc9c; }
+    }
+    .hero p {
+      font-size: 1.3rem;
+      margin-top: 8px;
+    }
+
+    /* Section Styles */
+    .section {
+      padding: 70px 20px;
+      text-align: center;
+    }
+    .section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+      color: #222;
+    }
+
+    /* Skills */
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .skill-card {
+      padding: 18px;
+      background: #fff;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #111;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+    .skill-card:hover {
+      transform: scale(1.08);
+      background: #1abc9c;
+      color: white;
+    }
+
+    /* Projects */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 22px;
+      margin-top: 24px;
+    }
+    .project-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      transition: 0.3s;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 14px rgba(0,0,0,0.15);
+    }
+
+    /* Contact Link */
+    .contact a {
+      color: #1abc9c;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">YourName.</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div>
+      <h1>Hello, I'm <span>Your Name</span></h1>
+      <p>Creative Web Developer & Designer</p>
+    </div>
+  </header>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <h2>About Me</h2>
+    <p>I build interactive and visually engaging web experiences.</p>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="section">
+    <h2>Skills</h2>
+    <div class="skill-grid">
+      <div class="skill-card">HTML</div>
+      <div class="skill-card">CSS</div>
+      <div class="skill-card">JavaScript</div>
+      <div class="skill-card">Responsive Design</div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section">
+    <h2>Projects</h2>
+    <div class="project-grid">
+      <div class="project-card">
+        <h3>Project One</h3>
+        <p>A modern responsive site design.</p>
+      </div>
+      <div class="project-card">
+        <h3>Project Two</h3>
+        <p>Interactive layout with animations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <h2>Contact Me</h2>
+    <p>Email: <a href="mailto:youremail@example.com">youremail@example.com</a></p>
+  </section>
+
+</body>
+</html>
