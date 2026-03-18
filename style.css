@@ -1,0 +1,376 @@
+/* =========================================
+   VARIABLES & GLOBAL RESET
+========================================= */
+:root {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --text-muted: #a0a0a0;
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Space Grotesk', sans-serif;
+
+    /* Glassmorphism Variables */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-blur: blur(10px);
+
+    /* Transitions */
+    --trans-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none !important;
+    /* Force custom cursor */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.hero-word {
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+/* =========================================
+   CUSTOM CURSOR
+========================================= */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ffffff;
+    background-color: rgba(128, 128, 128, 0.5);
+    /* Grey fill */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+    mix-blend-mode: difference;
+}
+
+.custom-cursor.hover-effect {
+    width: 70px;
+    height: 70px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.cursor-text {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #ffffff;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: block;
+    text-align: center;
+    line-height: 70px; /* Centering match */
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.custom-cursor.hover-effect .cursor-text {
+    opacity: 1;
+}
+
+/* =========================================
+   PARALLAX BACKGROUND
+========================================= */
+.parallax-bg {
+    position: fixed;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    /* Cinematic Landscape Image */
+    background: url('assets/hero_bg_custom_retouched.png') no-repeat center center;
+    background-size: cover;
+    z-index: -2;
+    opacity: 0.5;
+    pointer-events: none;
+    /* Will be translated by JS based on mouse */
+    transition: transform 0.1s linear;
+}
+
+/* =========================================
+   MAIN LAYOUT & UTILITIES
+========================================= */
+.main-container {
+    position: relative;
+    z-index: 1;
+}
+
+.content-section {
+    min-height: 100vh;
+    padding: 100px 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.section-title {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* =========================================
+   GLASSMORPHISM COMPONENTS
+========================================= */
+.glass-container {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 3rem;
+    max-width: 800px;
+    width: 100%;
+    transition: var(--trans-smooth);
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: var(--trans-smooth);
+}
+
+.glass-container:hover,
+.glass-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.glass-btn {
+    display: inline-block;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-family: var(--font-heading);
+    letter-spacing: 1px;
+    transition: var(--trans-smooth);
+    margin-top: 1rem;
+}
+
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.project-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 35px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.project-arrow {
+    font-size: 1.1rem;
+    transform: rotate(45deg); /* Pointing towards right-bottom */
+    transition: var(--trans-smooth);
+}
+
+.project-btn:hover .project-arrow {
+    transform: rotate(0deg); /* Pointing towards right */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); /* Glow effect */
+}
+
+/* Back Arrow Logic (Left Orientation) */
+.back-arrow {
+    font-size: 1.1rem;
+    transform: rotate(45deg); /* Points bottom-left for a left icon */
+    transition: var(--trans-smooth);
+    margin-right: 12px;
+}
+
+.project-btn:hover .back-arrow {
+    transform: rotate(0deg); /* Points directly left */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+}
+
+.glass-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    font-size: 1.5rem;
+    transition: var(--trans-smooth);
+}
+
+.glass-icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* =========================================
+   HERO SECTION
+========================================= */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 8vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.hero-text-container {
+    display: flex;
+    justify-content: space-between;
+    width: 90vw;
+    align-items: center;
+    font-size: 8vw;
+    text-transform: uppercase;
+    will-change: transform, opacity;
+}
+
+.hero-word {
+    /* iOS Liquid Glass on the Letters */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.3) 60%, rgba(255, 255, 255, 1) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* 3D Glass edge projection and shadow */
+    filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.8)) drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.4));
+    will-change: transform, opacity;
+}
+
+/* =========================================
+   PROJECTS SECTION
+========================================= */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.project-type {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.project-card h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.project-card p {
+    color: var(--text-muted);
+}
+
+/* =========================================
+   SOCIAL MEDIA SECTION
+========================================= */
+.social-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* =========================================
+   ENDING SECTION
+========================================= */
+.ending-section {
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ending-text {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   RESPONSIVE LAYOUT adjustments
+========================================= */
+@media (max-width: 768px) {
+    .hero-text-container {
+        font-size: 15vw;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+    }
+
+    .parallax-bg {
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important; /* Fallback */
+        height: 100lvh !important; /* Locks background explicitly to the longest static screen size without URL bar collapse! */
+        background-position: center 30% !important; 
+        transform: translateZ(0) !important; /* Forces hardware-level lock anchored perfectly overriding any random JS scroll events */
+        transition: none !important;
+    }
+
+    .custom-cursor {
+        display: none !important;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .glass-container {
+        padding: 2rem 1.5rem;
+    }
+}
