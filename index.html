@@ -11,14 +11,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Custom Cursor -->
-    <div class="custom-cursor" id="custom-cursor">
+    <div class="custom-cursor" id="custom-cursor"></div>
+    <div class="custom-cursor-label" id="custom-cursor-label">
         <span class="cursor-text"></span>
     </div>
 
@@ -51,7 +52,7 @@
                 <div class="glass-card project-card slide-left">
                     <p class="project-type">Field Project</p>
                     <h3>Production & Payroll Management System</h3>
-                    <a href="project_detail.html?title=Production %26 Payroll Management System&type=Field Project" class="glass-btn project-btn hover-target">
+                    <a href="project_detail.html?title=Production %26 Payroll Management System&type=Field Project&section=projects" class="glass-btn project-btn hover-target">
                         View Project <i class="fas fa-arrow-right project-arrow"></i>
                     </a>
                 </div>
@@ -59,7 +60,7 @@
                 <div class="glass-card project-card slide-right">
                     <p class="project-type">Research Project</p>
                     <h3>Satellite Tracking Mobile Application</h3>
-                    <a href="project_detail.html?title=Satellite Tracking Mobile Application&type=Research Project" class="glass-btn project-btn hover-target">
+                    <a href="project_detail.html?title=Satellite Tracking Mobile Application&type=Research Project&section=projects" class="glass-btn project-btn hover-target">
                         View Project <i class="fas fa-arrow-right project-arrow"></i>
                     </a>
                 </div>
@@ -69,7 +70,7 @@
                 <div class="glass-card project-card slide-up" style="max-width: 500px; width: 100%;">
                     <p class="project-type">Python Project</p>
                     <h3>Mini-Projects</h3>
-                    <a href="project_detail.html?title=Mini-Projects&type=Python Project" class="glass-btn project-btn hover-target">
+                    <a href="project_detail.html?title=Mini-Projects&type=Python Project&section=projects" class="glass-btn project-btn hover-target">
                         View Project <i class="fas fa-arrow-right project-arrow"></i>
                     </a>
                 </div>
@@ -85,7 +86,7 @@
                 <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 600; letter-spacing: 1px;">1 Year Experience</p>
                 <p>Managed full-scale production cycles, optimized team workflows, and ensured the highest quality of deliverables. Bridged the gap between creative vision and technical execution to deliver outstanding results.</p>
                 <br>
-                <a href="project_detail.html?title=Production Manager&type=Experience" class="glass-btn project-btn hover-target">
+                <a href="project_detail.html?title=Production Manager&type=Experience&section=experience" class="glass-btn project-btn hover-target">
                     View more <i class="fas fa-arrow-right project-arrow"></i>
                 </a>
             </div>
@@ -100,7 +101,7 @@
                     <h3>Outstanding Award 1</h3>
                     <p>Recognized for exceptional performance, leadership, and dedication to the craft.</p>
                     <br>
-                    <a href="project_detail.html?title=Outstanding Award 1&type=Award" class="glass-btn project-btn hover-target">
+                    <a href="project_detail.html?title=Outstanding Award 1&type=Award&section=awards" class="glass-btn project-btn hover-target">
                         View more <i class="fas fa-arrow-right project-arrow"></i>
                     </a>
                 </div>
@@ -109,7 +110,7 @@
                     <h3>Excellence Award 2</h3>
                     <p>Honored for outstanding contributions, innovation, and technical problem-solving.</p>
                     <br>
-                    <a href="project_detail.html?title=Excellence Award 2&type=Award" class="glass-btn project-btn hover-target">
+                    <a href="project_detail.html?title=Excellence Award 2&type=Award&section=awards" class="glass-btn project-btn hover-target">
                         View more <i class="fas fa-arrow-right project-arrow"></i>
                     </a>
                 </div>
@@ -131,11 +132,13 @@
         <!-- Social Media Section -->
         <section id="social" class="content-section">
             <h2 class="section-title fade-up">Let's Connect</h2>
-            <div class="social-container fade-up">
-                <a href="#" class="glass-icon hover-target"><i class="fab fa-github"></i></a>
-                <a href="#" class="glass-icon hover-target"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" class="glass-icon hover-target"><i class="fas fa-envelope"></i></a>
-                <a href="#" class="glass-icon hover-target"><i class="fa-brands fa-x-twitter"></i></a>
+            <div class="glass-container fade-up">
+                <div class="social-container">
+                    <a href="https://github.com/UdayGajul" target="_blank" rel="noopener noreferrer" class="glass-icon open-btn hover-target"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/udaygajul" target="_blank" rel="noopener noreferrer" class="glass-icon open-btn hover-target"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="mailto:uday.gajul@outlook.com" class="glass-icon open-btn hover-target"><i class="fas fa-envelope"></i></a>
+                    <a href="https://x.com/GajulUday" target="_blank" rel="noopener noreferrer" class="glass-icon open-btn hover-target"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
             </div>
         </section>
 

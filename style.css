@@ -69,6 +69,17 @@ a {
     mix-blend-mode: difference;
 }
 
+.custom-cursor-label {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 70px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 10000;
+}
+
 .custom-cursor.hover-effect {
     width: 70px;
     height: 70px;
@@ -84,14 +95,16 @@ a {
     color: #ffffff;
     opacity: 0;
     transition: opacity 0.3s ease;
-    display: block;
-    text-align: center;
-    line-height: 70px; /* Centering match */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     white-space: nowrap;
 }
 
-.custom-cursor.hover-effect .cursor-text {
+.custom-cursor-label.hover-effect .cursor-text {
     opacity: 1;
 }
 
@@ -241,6 +254,10 @@ a {
     border: 1px solid var(--glass-border);
     font-size: 1.5rem;
     transition: var(--trans-smooth);
+    /* Force GPU compositing layer so backdrop-filter is active immediately,
+       preventing the ~1s flash where the blur is absent during fade-in */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .glass-icon:hover {
@@ -266,7 +283,7 @@ a {
     display: flex;
     justify-content: space-between;
     width: 90vw;
-    align-items: center;
+    align-items: flex-end;
     font-size: 8vw;
     text-transform: uppercase;
     will-change: transform, opacity;

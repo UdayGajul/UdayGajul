@@ -4,6 +4,7 @@
 const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
 const cursor = document.getElementById('custom-cursor');
+const cursorLabel = document.getElementById('custom-cursor-label');
 let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
 let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
 
@@ -22,6 +23,9 @@ if (!isMobile) {
         cursorY += dy * 0.15;
         
         cursor.style.transform = `translate(calc(${cursorX}px - 50%), calc(${cursorY}px - 50%))`;
+        if (cursorLabel) {
+            cursorLabel.style.transform = `translate(calc(${cursorX}px - 50%), calc(${cursorY}px - 50%))`;
+        }
         requestAnimationFrame(animateCursor);
     }
     animateCursor();
@@ -30,26 +34,32 @@ if (!isMobile) {
 // Hover effect for interactive elements only on desktop
 if (!isMobile) {
     const hoverElements = document.querySelectorAll('a, button');
-    const cursorText = cursor.querySelector('.cursor-text');
+    const cursorText = cursorLabel ? cursorLabel.querySelector('.cursor-text') : null;
     
     hoverElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursor.classList.add('hover-effect');
-            // If it's a project button or download button, show "VIEW"
-            if (el.classList.contains('project-btn') || el.classList.contains('download-btn')) {
-                // Check if it's the back button specifically
+            if (cursorLabel) cursorLabel.classList.add('hover-effect');
+            // Determine what label to show inside the expanded cursor
+            if (el.classList.contains('open-btn')) {
+                // Any element that opens a new tab
+                if (cursorText) cursorText.innerHTML = '<i class="fas fa-arrow-up-right-from-square" style="font-size:24px;"></i>';
+            } else if (el.classList.contains('project-btn') || el.classList.contains('download-btn')) {
                 if (el.classList.contains('back-btn')) {
-                    cursorText.innerText = "BACK";
+                    // Back button
+                    if (cursorText) cursorText.innerText = "BACK";
                 } else {
-                    cursorText.innerText = "VIEW";
+                    // Generic view / project button
+                    if (cursorText) cursorText.innerText = "VIEW";
                 }
             } else {
-                cursorText.innerText = "";
+                if (cursorText) cursorText.innerHTML = '';
             }
         });
         el.addEventListener('mouseleave', () => {
             cursor.classList.remove('hover-effect');
-            cursorText.innerText = "";
+            if (cursorLabel) cursorLabel.classList.remove('hover-effect');
+            if (cursorText) cursorText.innerHTML = '';
         });
     });
 }
@@ -78,67 +88,84 @@ gsap.registerPlugin(ScrollTrigger);
 
 const heroTimeline = gsap.timeline({ defaults: { ease: 'power4.out' } });
 // Initial Setup
-gsap.set('.hero-text-container', { opacity: 1 }); 
-// On mobile, use a slightly softer scale and push them top/bottom instead of left/right to fit portrait view
-const startScale = isMobile ? 8 : 15;
-const startXLeft = isMobile ? '0vw' : '-150vw';
-const startXRight = isMobile ? '0vw' : '150vw';
-const startYTop = isMobile ? '-50vh' : '0';
-const startYBottom = isMobile ? '50vh' : '0';
+gsap.set('.hero-text-container', { opacity: 1 });
 
+// Spec: start max-zoomed at top (behind), move down smoothly,
+// shrink + sharpen into final bottom-left / bottom-right layout.
+const startScale = isMobile ? 6.5 : 12;
+const startY = isMobile ? '-55vh' : '-75vh';
+const startOpacity = isMobile ? 0.22 : 0.18;
+const startBlur = isMobile ? 10 : 14;
 
-gsap.set('#word-uday', {
+const glowFilterLow = `blur(0px) drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.8)) drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.35))`;
+const glowFilterHigh = `blur(0px) drop-shadow(0px 12px 18px rgba(0, 0, 0, 0.85)) drop-shadow(0px 0px 18px rgba(255, 255, 255, 0.6)) drop-shadow(0px 0px 34px rgba(180, 220, 255, 0.35))`;
+
+gsap.set(['#word-uday', '#word-gajul'], {
     scale: startScale,
-    x: startXLeft,
-    y: startYTop,
-    opacity: 0,
+    y: startY,
+    opacity: startOpacity,
     transformOrigin: 'center center',
     force3D: true
 });
-gsap.set('#word-gajul', {
-    scale: startScale,
-    x: startXRight,
-    y: startYBottom,
-    opacity: 0,
-    transformOrigin: 'center center',
-    force3D: true
-});
+gsap.set('#word-uday', { x: 0, rotateZ: -1 });
+gsap.set('#word-gajul', { x: 0, rotateZ: 1 });
+gsap.set(['#word-uday', '#word-gajul'], { filter: `blur(${startBlur}px) drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.8)) drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.18))` });
 
 // Main entrance sequence
 if (window.location.hash) {
-    // Skip animation if arriving via hash (like #projects)
-    gsap.set(['#word-uday', '#word-gajul'], { opacity: 1, scale: 1, x: 0, y: 0 });
-    // Still start the floating animation
+    // Skip intro animation if arriving via hash (like #projects)
+    gsap.set(['#word-uday', '#word-gajul'], { opacity: 1, scale: 1, x: 0, y: 0, rotateZ: 0, filter: glowFilterLow });
+} else {
+    heroTimeline
+        .to(['#word-uday', '#word-gajul'], { opacity: 0.45, duration: 0.35, ease: 'power1.inOut' })
+        .to(['#word-uday', '#word-gajul'], {
+            duration: 2.4,
+            y: isMobile ? '-18vh' : '-24vh',
+            scale: isMobile ? 2.4 : 3.2,
+            filter: isMobile
+                ? 'blur(6px) drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.85)) drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.22))'
+                : 'blur(7px) drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.85)) drop-shadow(0px 0px 9px rgba(255, 255, 255, 0.22))',
+            ease: 'power2.inOut'
+        }, '<')
+        .to(['#word-uday', '#word-gajul'], {
+            duration: 2.2,
+            y: 0,
+            scale: 1,
+            rotateZ: 0,
+            opacity: 1,
+            filter: glowFilterLow,
+            ease: 'power3.inOut'
+        }, '>-0.05');
+}
+
+function startHeroIdleMotion() {
+    // Subtle “alive” motion after settling (slightly more float + gentle glow pulse)
     gsap.to(['#word-uday', '#word-gajul'], {
-        duration: 2.5,
-        rotationX: 8,
-        rotationY: -8,
+        duration: 4.4,
+        y: isMobile ? -7 : -10,
+        rotationX: isMobile ? 0 : 4,
+        rotationY: isMobile ? 0 : -4,
         transformOrigin: 'center center',
         repeat: -1,
         yoyo: true,
-        ease: 'sine.inOut'
+        ease: 'sine.inOut',
+        overwrite: 'auto'
     });
+
+    gsap.to(['#word-uday', '#word-gajul'], {
+        duration: 2.6,
+        filter: glowFilterHigh,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        overwrite: 'auto'
+    });
+}
+
+if (window.location.hash) {
+    startHeroIdleMotion();
 } else {
-    heroTimeline
-        // Fade/scale in from opposite sides
-        .to(['#word-uday', '#word-gajul'], { opacity: 1, duration: 0.6 })
-        .to('#word-uday', { scale: 1, x: 0, y: 0, duration: 5, autoRound: false }, '<')
-        .to('#word-gajul', { scale: 1, x: 0, y: 0, duration: 5, autoRound: false }, '<')
-        // Subtle overshoot bounce for both words
-        .to('#word-uday', { y: -12, duration: 0.4, ease: 'power2.out' }, '-=1.2')
-        .to('#word-uday', { y: 0, duration: 0.6, ease: 'bounce.out' }, '>-0.1')
-        .to('#word-gajul', { y: 12, duration: 0.4, ease: 'power2.out' }, '<')
-        .to('#word-gajul', { y: 0, duration: 0.6, ease: 'bounce.out' }, '>-0.1')
-        // Micro rotation + glow pulse for a premium glassy feel
-        .to(['#word-uday', '#word-gajul'], {
-            duration: 2.5,
-            rotationX: 8,
-            rotationY: -8,
-            transformOrigin: 'center center',
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut'
-        }, '+=0.4');
+    heroTimeline.call(startHeroIdleMotion);
 }
 
 
