@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experience Details - Uday Gajul</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Use same CSS for consistency -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            background-color: transparent;
+            overflow-y: auto;
+        }
+
+        .experience-detail-container {
+            padding: 100px 5vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .back-btn {
+            align-self: flex-start;
+            margin-bottom: 2rem;
+        }
+
+
+
+        .certificate-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .certificate-image {
+            width: 100%;
+            border-radius: 10px;
+            object-fit: contain;
+            transition: var(--trans-smooth);
+            border: 1px solid var(--glass-border);
+            /* Soft glow around the image itself */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .certificate-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-block {
+            margin-bottom: 1.8rem;
+        }
+
+        .detail-block h4 {
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-block p {
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+        
+        /* Custom image zoom icon for the cursor */
+        .certificate-image-wrapper {
+            position: relative;
+            cursor: none;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Modal for Image Preview */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 100000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 1000px;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from {transform:scale(0.8); opacity:0}
+            to {transform:scale(1); opacity:1}
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="custom-cursor"></div>
+    <div class="custom-cursor-label" id="custom-cursor-label">
+        <span class="cursor-text"></span>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="modal">
+        <span class="close-modal hover-target">&times;</span>
+        <img class="modal-content" id="modal-img">
+    </div>
+
+    <div class="main-container">
+        <div class="experience-detail-container">
+            <!-- Back Button -->
+            <a id="back-btn" href="index.html#experience" class="glass-btn project-btn hover-target back-btn">
+                <i class="fas fa-arrow-left back-arrow"></i> Back
+            </a>
+
+            <!-- Title Outside -->
+            <h1 class="section-title fade-up" id="display-experience-title">Experience Title</h1>
+            <!-- Unified Experience Box (Matches project_detail.html) -->
+            <div class="glass-container fade-up" style="max-width: 900px; width: 100%; margin: 2rem auto 0 auto;">
+                <p class="project-type" id="display-experience-type" style="margin-top: 0; margin-bottom: 2rem; text-align: left;">Experience</p>
+
+                <!-- Right Image / Certificate - Moved to top -->
+                <div class="certificate-container" id="certificate-section" style="display: none; flex-direction: column; align-items: center; margin-bottom: 2rem;">
+                    <h4 style="font-family: var(--font-heading); font-size: 1.5rem; letter-spacing: 2px;">Experience Certificate</h4>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem; text-align: center;">Click on the image to view in full screen.</p>
+                    <div class="certificate-image-wrapper hover-target view-image-btn" id="cert-wrapper">
+                        <img id="certificate-img" src="" alt="Experience Certificate" class="certificate-image">
+                    </div>
+                </div>
+                
+                <!-- Details - Moved after certificate -->
+                <div id="experience-body">
+                    <!-- Filled dynamically by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Custom Scrollbar -->
+    <div class="custom-scrollbar-container" id="scrollbar-container">
+        <div class="custom-scrollbar-thumb" id="scrollbar-thumb"></div>
+    </div>
+
+    <!-- Floating Hamburger Button -->
+    <div class="hamburger-btn hover-target" id="hamburger-btn">
+        <div class="hamburger-line line-1"></div>
+        <div class="hamburger-line line-2"></div>
+        <div class="hamburger-line line-3"></div>
+    </div>
+
+    <!-- Full Screen Menu Overlay -->
+    <div class="full-screen-menu" id="full-screen-menu">
+        <nav class="menu-nav-links">
+            <a href="#hero" class="menu-link hover-target">Home</a>
+            <a href="#about" class="menu-link hover-target">About</a>
+            <a href="#projects" class="menu-link hover-target">Projects</a>
+            <a href="#experience" class="menu-link hover-target">Experience</a>
+            <a href="#awards" class="menu-link hover-target">Awards</a>
+            <a href="#social" class="menu-link hover-target">Connect</a>
+        </nav>
+    </div>
+
+    <!-- JS -->
+    <script src="script.js"></script>
+
+    <script>
+        // ── URL params ──────────────────────────────────────────
+        const urlParams = new URLSearchParams(window.location.search);
+        const title = urlParams.get('title');
+        const type = urlParams.get('type') || 'Experience';
+        const section = urlParams.get('section') || 'experience';
+
+        // ── Page header ─────────────────────────────────────────
+        if (title) document.getElementById('display-experience-title').innerText = title;
+        if (type) document.getElementById('display-experience-type').innerText = type;
+
+        // ── Content map ─────────────────────────────────
+        const experienceContent = {
+            'Production Manager': {
+                blocks: [
+                    { heading: 'Duration', text: '1 Year Full-Time' },
+                    { heading: 'Company', text: 'Gajul Fabrics (Textile Industry)' },
+                    { heading: 'Role Description', text: 'Managed end-to-end production operations at <strong>Gajul Fabrics</strong>, a textile manufacturing unit. Responsible for operational oversight, workforce management, and quality assurance while implementing strategic production planning to meet seasonal market demands.' },
+                    { heading: 'Key Responsibilities', text: '<ul style="padding-left: 20px; line-height: 1.8;">' +
+                        '<li><strong>Strategic Seasonal Planning:</strong> Developed and executed a demand forecasting strategy by gradually scaling production ahead of peak seasons (Summer, Marriage seasons), ensuring zero stockouts while eliminating seasonal overtime costs.</li>' +
+                        '<li><strong>Quality Assurance & Standardization:</strong> Conducted daily rigorous quality inspections and weight sampling for diverse towel and napkin product lines to meet distributor specifications and end-user standards.</li>' +
+                        '<li><strong>Operational Oversight:</strong> Optimized loom uptime by performing daily machine inspections and coordinating with technicians to resolve technical issues within a minimal window of 1-2 hours.</li>' +
+                        '<li><strong>Supply Chain & Inventory:</strong> Managed raw material procurement and implemented a buffer stock strategy, ensuring 100% order fulfillment for urgent distributor requests through controlled inventory management.</li>' +
+                        '<li><strong>Market-Driven Product Development:</strong> Collaborated closely with the sales team to translate market trends and distributor feedback into product adjustments, including design modifications and weight optimization.</li>' +
+                        '</ul>' },
+                    { heading: 'Impact', text: 'Achieved <strong>100% stock availability</strong> during high-demand periods and significantly reduced operational expenditure by optimizing seasonal workforce scheduling. Successfully transitioned production tracking from manual handwritten records to an automated digital system, enhancing data accuracy for payroll and reporting.' }
+                ],
+                certificate: 'assets/Production_Manager_Exp_Certificate.png'
+            }
+        };
+
+        const body = document.getElementById('experience-body');
+        const data = title ? experienceContent[title] : null;
+
+        if (data && data.blocks) {
+            body.innerHTML = data.blocks.map(b =>
+                '<div class="detail-block"><h4>' + b.heading + '</h4><p>' + b.text + '</p></div>'
+            ).join('');
+
+            // Setup Certificate Image
+            if (data.certificate) {
+                document.getElementById('certificate-section').style.display = 'flex';
+                document.getElementById('certificate-img').src = data.certificate;
+
+                
+                // Modal Logic
+                const modal = document.getElementById("image-modal");
+                const modalImg = document.getElementById("modal-img");
+                const wrapper = document.getElementById("cert-wrapper");
+                const closeBtn = document.getElementsByClassName("close-modal")[0];
+
+                wrapper.onclick = function(){
+                    modal.style.display = "flex";
+                    modalImg.src = data.certificate;
+                    document.body.style.overflow = "hidden"; // Prevent scrolling
+                }
+
+                closeBtn.onclick = function() {
+                    modal.style.display = "none";
+                    document.body.style.overflow = "auto";
+                }
+                
+                modal.onclick = function(e) {
+                    if (e.target !== modalImg) {
+                        modal.style.display = "none";
+                        document.body.style.overflow = "auto";
+                    }
+                }
+            }
+        } else {
+            body.innerHTML = '<p>Experience details not available.</p>';
+        }
+
+        // ── Back navigation ─────────────────────────────────────
+        const backTarget = 'index.html#' + section;
+        const backBtn = document.getElementById('back-btn');
+        backBtn.setAttribute('href', backTarget);
+
+        backBtn.addEventListener('click', () => {
+            sessionStorage.setItem('returnSection', section);
+        });
+
+        // ── Add cursor hover effect to the image ────────────────
+        if (typeof isMobile !== 'undefined' && !isMobile) {
+            const cursorEl = document.getElementById('custom-cursor');
+            const cursorLblEl = document.getElementById('custom-cursor-label');
+            const cursorTxtEl = cursorLblEl ? cursorLblEl.querySelector('.cursor-text') : null;
+
+            document.querySelectorAll('.view-image-btn').forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    if (cursorEl) cursorEl.classList.add('hover-effect');
+                    if (cursorLblEl) cursorLblEl.classList.add('hover-effect');
+                    if (cursorTxtEl) cursorTxtEl.innerHTML = '<i class="fas fa-search-plus" style="font-size:24px;"></i>';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    if (cursorEl) cursorEl.classList.remove('hover-effect');
+                    if (cursorLblEl) cursorLblEl.classList.remove('hover-effect');
+                    if (cursorTxtEl) cursorTxtEl.innerHTML = '';
+                });
+            });
+        }
+    </script>
+</body>
+</html>

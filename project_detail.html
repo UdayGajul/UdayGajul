@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Details - Uday Gajul</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +22,7 @@
 
     <style>
         body {
-            background-color: #000000;
+            background-color: transparent;
             overflow-y: auto;
         }
 
@@ -57,6 +58,28 @@
             color: var(--text-color);
             line-height: 1.8;
         }
+
+        .project-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .project-list li {
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .project-list li i {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 
@@ -87,7 +110,8 @@
                 </div>
 
                 <br><br>
-                <div id="project-buttons" class="social-container" style="justify-content: flex-start; flex-wrap: wrap; gap: 16px;">
+                <div id="project-buttons" class="social-container"
+                    style="justify-content: flex-start; flex-wrap: wrap; gap: 16px;">
                     <!-- filled dynamically by JS below -->
                 </div>
             </div>
@@ -98,19 +122,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
+    <!-- Custom Scrollbar -->
+    <div class="custom-scrollbar-container" id="scrollbar-container">
+        <div class="custom-scrollbar-thumb" id="scrollbar-thumb"></div>
+    </div>
+
+    <!-- Floating Hamburger Button -->
+    <div class="hamburger-btn hover-target" id="hamburger-btn">
+        <div class="hamburger-line line-1"></div>
+        <div class="hamburger-line line-2"></div>
+        <div class="hamburger-line line-3"></div>
+    </div>
+
+    <!-- Full Screen Menu Overlay -->
+    <div class="full-screen-menu" id="full-screen-menu">
+        <nav class="menu-nav-links">
+            <a href="#hero" class="menu-link hover-target">Home</a>
+            <a href="#about" class="menu-link hover-target">About</a>
+            <a href="#projects" class="menu-link hover-target">Projects</a>
+            <a href="#experience" class="menu-link hover-target">Experience</a>
+            <a href="#awards" class="menu-link hover-target">Awards</a>
+            <a href="#social" class="menu-link hover-target">Connect</a>
+        </nav>
+    </div>
+
     <!-- Use same JS for cursor and animations -->
     <script src="script.js"></script>
 
     <script>
         // ── URL params ──────────────────────────────────────────
         const urlParams = new URLSearchParams(window.location.search);
-        const title   = urlParams.get('title');
-        const type    = urlParams.get('type');
+        const title = urlParams.get('title');
+        const type = urlParams.get('type');
         const section = urlParams.get('section') || 'projects';
 
         // ── Page header ─────────────────────────────────────────
         if (title) document.getElementById('display-project-title').innerText = title;
-        if (type)  document.getElementById('display-project-type').innerText  = type;
+        if (type) document.getElementById('display-project-type').innerText = type;
 
         // ── Project content map ─────────────────────────────────
         const projectContent = {
@@ -120,7 +168,7 @@
                     text: 'Gajul Fabrics (Textile Industry)'
                 },
                 {
-                    heading: 'The "Field" Objective',
+                    heading: 'Objective',
                     text: 'To address inefficient manual tracking of production and worker salaries by developing a system that automates production management, reporting, and payroll processes.'
                 },
                 {
@@ -135,6 +183,36 @@
                     heading: 'Outcome & Deliverables',
                     text: 'Delivered a fully functional desktop application capable of managing production data, generating reports, and handling payroll, significantly improving efficiency, accuracy, and decision-making within operations.'
                 }
+            ],
+            'Satellite Tracking Mobile Application': [
+                {
+                    heading: 'Problem',
+                    text: 'Most existing satellite tracking apps primarily focus on the International Space Station (ISS) or offer limited access to other satellites, making it difficult for users to explore important satellites from different countries.'
+                },
+                {
+                    heading: 'Goal',
+                    text: 'This project aims to solve this by providing a mobile application that allows users to track top satellites from leading space-faring countries in real time through a simple and accessible interface.'
+                },
+                {
+                    heading: 'Team Composition',
+                    text: 'Collaborative Research Project with a team of 5.'
+                },
+                {
+                    heading: 'Contribution',
+                    text: 'I identified the core problem of limited satellite tracking tools, conducted the literature review, and planned the execution strategy for the app. I collected top satellite data, designed the Earth model, and worked with complex TLE (Two‑Line Element) data. I then displayed live satellite tracking on the Earth model and developed key components of the application.'
+                },
+                {
+                    heading: 'Impact',
+                    text: 'My work enabled the app to provide accurate real‑time satellite tracking beyond basic ISS tracking, addressing limitations of existing tools that only show basic or restricted satellite information. By processing complex TLE (Two‑Line Element) data and visualizing live satellite positions on the Earth model, I helped create a functional and engaging user experience that makes satellite tracking accessible and informative for users.'
+                },
+                {
+                    heading: 'Tools',
+                    text: 'Frontend: React Native for building the mobile app using JavaScript and native UI components.<br>Backend & Database: PHP running on XAMPP (Apache + MySQL) to handle server logic and database interactions.<br>API Testing & Development: Postman for creating, testing, and debugging the app\'s API endpoints.<br>3D Earth Visualization: Three.js for rendering the interactive 3D Earth model and satellite paths.<br>Satellite Orbit Data: Uses TLE data from CelesTrak to calculate and show satellite positions.'
+                },
+                {
+                    heading: 'Reflection',
+                    text: 'Working in a 5‑person team taught me how to communicate clearly, collaborate effectively, and support others while solving problems together. The experience felt like working in a real‑world company, helped me build teamwork, adaptability, and problem‑solving skills, and I\'m grateful for how we helped each other and would gladly work with my team again in the future.'
+                }
             ]
         };
 
@@ -145,22 +223,26 @@
             'Production & Payroll Management System': {
                 sourceUrl: 'https://github.com/UdayGajul/Production-and-Payroll-Management-System-PPMS',
                 demo: {
-                    url: 'https://drive.google.com/file/d/1c_41Su9tLBvBIuQfHahoBGvCcUxhg1FX/view?usp=sharing',
+                    url: 'https://drive.google.com/file/d/1kvbvbm62u4BETcT9jKTG2camp6Ighc5w/view?usp=sharing',
                     label: 'Screen Recording'
                 }
             },
             'Satellite Tracking Mobile Application': {
                 sourceUrl: 'https://github.com/UdayGajul/Satellite-Tracking-Mobile-Application',
                 demo: {
-                    url: '#',          // replace '#' with the actual recording link when ready
+                    url: 'https://drive.google.com/file/d/1E4NZC7l2Brp3kgeeWhfFwSb5PxlDdALx/view?usp=sharing',
                     label: 'Screen Recording'
                 }
+            },
+            'Mini-Projects': {
+                sourceUrl: 'https://github.com/UdayGajul/Mini-Projects',
+                certificateUrl: 'https://www.udemy.com/certificate/UC-d9e2081b-2630-4cb8-a533-6d421421304f/'
             }
         };
 
         // ── Render content ──────────────────────────────────────
-        const body    = document.getElementById('project-body');
-        const blocks  = title ? projectContent[title] : null;
+        const body = document.getElementById('project-body');
+        const blocks = title ? projectContent[title] : null;
 
         if (blocks) {
             body.innerHTML = blocks.map(b =>
@@ -172,18 +254,37 @@
         } else {
             // Fallback placeholder for projects without specific content yet
             body.innerHTML = `
-                <p>This is a detailed view of the selected project. Here you can find more information about the
-                   technologies used, the challenges faced, and the final outcomes achieved during the project lifecycle.</p>
-                <br>
-                <p>The project focused on integrating advanced algorithms with a user-friendly interface. Key features
-                   included real-time data processing, cinematic animations, and a robust backend architecture.</p>
+                <div class="detail-block">
+                    <p>While I was working as a Production Manager for Gajul Fabrics, I didn't give up on the tech field. I <strong>successfully completed</strong> the <strong>'100 Days of Code™: The Complete Python Pro Bootcamp'</strong> by Angela Yu. Through this course, I created many mini-projects that showcase my Python skills and helped me gain a solid grasp of the language.</p>
+                </div>
+                <div class="detail-block">
+                    <h4>Included Projects</h4>
+                    <ul class="project-list">
+                        <li><i class="fas fa-chevron-right"></i> Add Watermark to Images</li>
+                        <li><i class="fas fa-chevron-right"></i> Automated Price Tracker</li>
+                        <li><i class="fas fa-chevron-right"></i> Birthday Wisher</li>
+                        <li><i class="fas fa-chevron-right"></i> Color Extractor</li>
+                        <li><i class="fas fa-chevron-right"></i> Instagram Follower Bot</li>
+                        <li><i class="fas fa-chevron-right"></i> Internet Speed Twitter (X) Complaint Bot</li>
+                        <li><i class="fas fa-chevron-right"></i> PDF to Speech</li>
+                        <li><i class="fas fa-chevron-right"></i> Pomodoro</li>
+                        <li><i class="fas fa-chevron-right"></i> Random Password Generator</li>
+                        <li><i class="fas fa-chevron-right"></i> Stock Trading News Alert</li>
+                        <li><i class="fas fa-chevron-right"></i> Text to Morse Code and Morse Code to Text</li>
+                        <li><i class="fas fa-chevron-right"></i> Tic Tac Toe Game</li>
+                        <li><i class="fas fa-chevron-right"></i> Workout Tracking Using Google Sheets</li>
+                    </ul>
+                </div>
+                <div class="detail-block">
+                    <p>You can view them by clicking the button below to visit my GitHub page.</p>
+                </div>
             `;
         }
 
         // ── Render buttons ──────────────────────────────────────
         const btnContainer = document.getElementById('project-buttons');
-        const btnConfig    = title ? projectButtons[title] : null;
-        const sourceUrl    = btnConfig ? btnConfig.sourceUrl : '#';
+        const btnConfig = title ? projectButtons[title] : null;
+        const sourceUrl = btnConfig ? btnConfig.sourceUrl : '#';
 
         let buttonsHTML = `
             <a href="${sourceUrl}" ${sourceUrl !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''}
@@ -199,24 +300,32 @@
             </a>`;
         }
 
+        if (btnConfig && btnConfig.certificateUrl) {
+            buttonsHTML += `
+            <a href="${btnConfig.certificateUrl}" target="_blank" rel="noopener noreferrer"
+               class="glass-btn project-btn open-btn hover-target">
+                View Certificate <i class="fas fa-certificate" style="margin-left: 10px;"></i>
+            </a>`;
+        }
+
         btnContainer.innerHTML = buttonsHTML;
 
         // Re-attach cursor hover listeners to the newly injected buttons
         // (script.js ran querySelectorAll before these elements existed)
         if (typeof isMobile !== 'undefined' && !isMobile) {
-            const cursorEl    = document.getElementById('custom-cursor');
+            const cursorEl = document.getElementById('custom-cursor');
             const cursorLblEl = document.getElementById('custom-cursor-label');
             const cursorTxtEl = cursorLblEl ? cursorLblEl.querySelector('.cursor-text') : null;
 
             btnContainer.querySelectorAll('a').forEach(btn => {
                 btn.addEventListener('mouseenter', () => {
-                    if (cursorEl)    cursorEl.classList.add('hover-effect');
+                    if (cursorEl) cursorEl.classList.add('hover-effect');
                     if (cursorLblEl) cursorLblEl.classList.add('hover-effect');
                     // open-btn → show external-link icon
                     if (cursorTxtEl) cursorTxtEl.innerHTML = '<i class="fas fa-arrow-up-right-from-square" style="font-size:24px;"></i>';
                 });
                 btn.addEventListener('mouseleave', () => {
-                    if (cursorEl)    cursorEl.classList.remove('hover-effect');
+                    if (cursorEl) cursorEl.classList.remove('hover-effect');
                     if (cursorLblEl) cursorLblEl.classList.remove('hover-effect');
                     if (cursorTxtEl) cursorTxtEl.innerHTML = '';
                 });
@@ -226,12 +335,13 @@
 
         // ── Back navigation ─────────────────────────────────────
         const backTarget = 'index.html#' + section;
-        document.getElementById('back-btn').setAttribute('href', backTarget);
+        const backBtn = document.getElementById('back-btn');
+        backBtn.setAttribute('href', backTarget);
 
-        if (document.referrer && document.referrer.includes('index.html')) {
-            history.replaceState(null, '', backTarget);
-            history.pushState(null, '', window.location.href);
-        }
+        // Save which section to scroll to, so index.html can restore it on back-navigation
+        backBtn.addEventListener('click', () => {
+            sessionStorage.setItem('returnSection', section);
+        });
     </script>
 </body>
 
