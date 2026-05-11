@@ -455,6 +455,95 @@ if (scrollbarContainer && scrollbarThumb && !isMobile) {
 }
 
 // =========================================
+// APPLE LIQUID GLASS — INTERACTIVE EFFECTS
+// =========================================
+
+// 1. Mouse-tracking 3D tilt on glass elements
+const glassElements = document.querySelectorAll('.glass-card, .glass-container');
+
+glassElements.forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = (e.clientX - cx) / (rect.width / 2);
+        const dy = (e.clientY - cy) / (rect.height / 2);
+
+        const tiltX = dy * -6;   // degrees
+        const tiltY = dx * 8;
+
+        // Specular highlight follows pointer
+        const hx = ((e.clientX - rect.left) / rect.width) * 100;
+        const hy = ((e.clientY - rect.top) / rect.height) * 100;
+
+        el.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-8px) scale(1.01)`;
+        el.style.background = `radial-gradient(ellipse at ${hx}% ${hy}%, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.05) 45%, rgba(180,220,255,0.07) 100%)`;
+    });
+
+    el.addEventListener('mouseleave', () => {
+        el.style.transform = '';
+        el.style.background = '';
+    });
+});
+
+// 2. Dynamic ambient orb that softly follows cursor
+const followOrb = document.createElement('div');
+followOrb.style.cssText = `
+    position: fixed;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(140, 190, 255, 0.18), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: screen;
+    filter: blur(50px);
+    transform: translate(-50%, -50%);
+    transition: left 0.8s cubic-bezier(0.23,1,0.32,1), top 0.8s cubic-bezier(0.23,1,0.32,1);
+    will-change: left, top;
+`;
+document.body.appendChild(followOrb);
+
+if (!isMobile) {
+    document.addEventListener('mousemove', (e) => {
+        followOrb.style.left = e.clientX + 'px';
+        followOrb.style.top  = e.clientY + 'px';
+    });
+}
+
+// 3. Liquid glass SVG filter modulation on glass-btn hover
+const svgFilter = document.querySelector('#liquid-glass-filter feTurbulence');
+const svgDisplace = document.querySelector('#liquid-glass-filter feDisplacementMap');
+
+if (svgFilter && svgDisplace) {
+    document.querySelectorAll('.glass-btn, .glass-icon').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            gsap.to(svgDisplace, {
+                attr: { scale: 22 },
+                duration: 0.4,
+                ease: 'power2.out'
+            });
+            gsap.to(svgFilter, {
+                attr: { baseFrequency: '0.025 0.030' },
+                duration: 0.4,
+                ease: 'power2.out'
+            });
+        });
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(svgDisplace, {
+                attr: { scale: 14 },
+                duration: 0.6,
+                ease: 'power3.out'
+            });
+            gsap.to(svgFilter, {
+                attr: { baseFrequency: '0.018 0.022' },
+                duration: 0.6,
+                ease: 'power3.out'
+            });
+        });
+    });
+}
+
+// =========================================
 // PREMIUM HAMBURGER NAVIGATION LOGIC
 // =========================================
 const hamburgerBtn = document.getElementById('hamburger-btn');

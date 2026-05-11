@@ -8,13 +8,17 @@
     --font-heading: 'Orbitron', sans-serif;
     --font-body: 'Space Grotesk', sans-serif;
 
-    /* Glassmorphism Variables */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-blur: blur(10px);
+    /* Apple Liquid Glass Variables */
+    --glass-bg: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-blur: blur(28px) saturate(180%);
+    --glass-shine: rgba(255, 255, 255, 0.35);
+    --glass-refract: rgba(180, 220, 255, 0.12);
+    --glass-glow: rgba(120, 180, 255, 0.15);
 
     /* Transitions */
-    --trans-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --trans-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    --trans-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 * {
@@ -135,14 +139,55 @@ a {
     left: -5%;
     width: 110%;
     height: 110%;
-    /* Cinematic Landscape Image */
     background: url('assets/hero_bg_custom_retouched.png') no-repeat center center;
     background-size: cover;
     z-index: -1;
-    opacity: 0.5;
+    opacity: 0.55;
     pointer-events: none;
-    /* Will be translated by JS based on mouse */
     transition: transform 0.1s linear;
+}
+
+/* =========================================
+   LIQUID GLASS AMBIENT ORBS
+========================================= */
+.lg-orb {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: orbFloat linear infinite;
+    mix-blend-mode: screen;
+    filter: blur(60px);
+    opacity: 0.18;
+    will-change: transform;
+}
+.lg-orb-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(100, 160, 255, 0.8), transparent 70%);
+    top: 10%; left: 5%;
+    animation-duration: 18s;
+    animation-delay: 0s;
+}
+.lg-orb-2 {
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(160, 100, 255, 0.8), transparent 70%);
+    top: 50%; right: 8%;
+    animation-duration: 24s;
+    animation-delay: -8s;
+}
+.lg-orb-3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(80, 220, 200, 0.8), transparent 70%);
+    bottom: 15%; left: 30%;
+    animation-duration: 20s;
+    animation-delay: -4s;
+}
+@keyframes orbFloat {
+    0%   { transform: translateY(0px) translateX(0px) scale(1); }
+    25%  { transform: translateY(-40px) translateX(20px) scale(1.05); }
+    50%  { transform: translateY(-20px) translateX(-30px) scale(0.95); }
+    75%  { transform: translateY(30px) translateX(15px) scale(1.03); }
+    100% { transform: translateY(0px) translateX(0px) scale(1); }
 }
 
 /* =========================================
@@ -176,54 +221,209 @@ a {
 }
 
 /* =========================================
-   GLASSMORPHISM COMPONENTS
+   APPLE LIQUID GLASS COMPONENTS
 ========================================= */
+
+/* Shimmer keyframe - the sweep of light across glass */
+@keyframes lg-shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+@keyframes lg-pulse-border {
+    0%, 100% { border-color: rgba(255,255,255,0.15); box-shadow: 0 0 0px rgba(120,180,255,0); }
+    50%       { border-color: rgba(200,230,255,0.35); box-shadow: 0 0 18px rgba(120,180,255,0.2); }
+}
+@keyframes lg-inner-glow {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 0.9; }
+}
+
 .glass-container {
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
+    position: relative;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.10) 0%,
+        rgba(255,255,255,0.04) 40%,
+        rgba(180,220,255,0.06) 70%,
+        rgba(255,255,255,0.08) 100%
+    );
+    backdrop-filter: blur(32px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(32px) saturate(180%) brightness(1.05);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 24px;
     padding: 3rem;
     max-width: 800px;
     width: 100%;
+    overflow: hidden;
     transition: var(--trans-smooth);
+    animation: lg-pulse-border 5s ease-in-out infinite;
+    box-shadow:
+        0 8px 32px rgba(0,0,0,0.45),
+        0 2px 8px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.25),
+        inset 0 -1px 0 rgba(255,255,255,0.05);
+}
+
+/* Specular highlight top edge */
+.glass-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+    border-radius: 50%;
+    animation: lg-inner-glow 4s ease-in-out infinite;
+}
+
+/* Light refraction shimmer sweep */
+.glass-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        105deg,
+        transparent 40%,
+        rgba(255,255,255,0.08) 50%,
+        transparent 60%
+    );
+    background-size: 200% 100%;
+    animation: lg-shimmer 6s linear infinite;
+    border-radius: inherit;
+    pointer-events: none;
 }
 
 .glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: 15px;
+    position: relative;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.10) 0%,
+        rgba(255,255,255,0.04) 50%,
+        rgba(180,220,255,0.06) 100%
+    );
+    backdrop-filter: blur(28px) saturate(160%) brightness(1.04);
+    -webkit-backdrop-filter: blur(28px) saturate(160%) brightness(1.04);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 20px;
     padding: 2rem;
-    transition: var(--trans-smooth);
+    overflow: hidden;
+    transition: var(--trans-spring);
+    box-shadow:
+        0 6px 24px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.22),
+        inset 0 -1px 0 rgba(255,255,255,0.04);
 }
 
-.glass-container:hover,
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.65), transparent);
+    border-radius: 50%;
+    animation: lg-inner-glow 5s ease-in-out infinite;
+    animation-delay: -2s;
+}
+
+.glass-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        110deg,
+        transparent 35%,
+        rgba(255,255,255,0.07) 48%,
+        transparent 62%
+    );
+    background-size: 200% 100%;
+    animation: lg-shimmer 7s linear infinite;
+    animation-delay: -3s;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.glass-container:hover {
+    transform: translateY(-8px) scale(1.01);
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.15) 0%,
+        rgba(255,255,255,0.06) 40%,
+        rgba(180,220,255,0.10) 70%,
+        rgba(255,255,255,0.12) 100%
+    );
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.55),
+        0 4px 16px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.4),
+        0 0 40px rgba(120,180,255,0.12);
+    border-color: rgba(255,255,255,0.30);
+}
+
 .glass-card:hover {
-    transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: translateY(-12px) scale(1.02);
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.14) 0%,
+        rgba(255,255,255,0.05) 50%,
+        rgba(180,220,255,0.09) 100%
+    );
+    box-shadow:
+        0 24px 60px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        0 0 30px rgba(120,180,255,0.10);
+    border-color: rgba(255,255,255,0.28);
 }
 
 .glass-btn {
+    position: relative;
     display: inline-block;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.14) 0%,
+        rgba(255,255,255,0.05) 100%
+    );
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255,255,255,0.22);
     padding: 12px 30px;
     border-radius: 50px;
     font-family: var(--font-heading);
     letter-spacing: 1px;
-    transition: var(--trans-smooth);
+    transition: var(--trans-spring);
     margin-top: 1rem;
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.3),
+        inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+.glass-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+}
+
+.glass-btn:hover::before {
+    left: 160%;
 }
 
 .glass-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.22) 0%,
+        rgba(200,230,255,0.12) 100%
+    );
+    border-color: rgba(255,255,255,0.4);
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.4),
+        0 0 20px rgba(120,180,255,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.45);
+    transform: translateY(-2px) scale(1.03);
 }
 
 .project-btn {
@@ -238,55 +438,80 @@ a {
 .project-arrow {
     font-size: 1.1rem;
     transform: rotate(45deg);
-    /* Pointing towards right-bottom */
     transition: var(--trans-smooth);
 }
 
 .project-btn:hover .project-arrow {
     transform: rotate(0deg);
-    /* Pointing towards right */
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
-    /* Glow effect */
+    filter: drop-shadow(0 0 8px rgba(180,220,255,0.9));
 }
 
 /* Back Arrow Logic (Left Orientation) */
 .back-arrow {
     font-size: 1.1rem;
     transform: rotate(45deg);
-    /* Points bottom-left for a left icon */
     transition: var(--trans-smooth);
     margin-right: 12px;
 }
 
 .project-btn:hover .back-arrow {
     transform: rotate(0deg);
-    /* Points directly left */
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+    filter: drop-shadow(0 0 8px rgba(180,220,255,0.9));
 }
 
 .glass-icon {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.14) 0%,
+        rgba(255,255,255,0.04) 100%
+    );
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255,255,255,0.20);
     font-size: 1.5rem;
-    transition: var(--trans-smooth);
-    /* Force GPU compositing layer so backdrop-filter is active immediately,
-       preventing the ~1s flash where the blur is absent during fade-in */
+    transition: var(--trans-spring);
     transform: translateZ(0);
     will-change: transform;
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.glass-icon::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transform: skewX(-15deg);
+    transition: left 0.5s ease;
+}
+
+.glass-icon:hover::after {
+    left: 160%;
 }
 
 .glass-icon:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-5px);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.22) 0%,
+        rgba(200,230,255,0.10) 100%
+    );
+    transform: translateY(-6px) scale(1.12);
+    border-color: rgba(255,255,255,0.38);
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.45),
+        0 0 20px rgba(120,180,255,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.45);
 }
 
 /* =========================================
@@ -474,10 +699,10 @@ a {
     left: 40px;
     width: 60px;
     height: 60px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.04) 100%);
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.22);
     border-radius: 50%;
     z-index: 1000003;
     display: flex;
@@ -485,14 +710,23 @@ a {
     justify-content: center;
     align-items: center;
     gap: 6px;
-    transition: var(--trans-smooth);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: var(--trans-spring);
+    box-shadow:
+        0 4px 20px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+    animation: lg-pulse-border 5s ease-in-out infinite;
+    animation-delay: -2s;
 }
 
 .hamburger-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: scale(1.1);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(200,230,255,0.10) 100%);
+    transform: scale(1.12);
+    border-color: rgba(255,255,255,0.38);
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.5),
+        0 0 20px rgba(120,180,255,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.45);
 }
 
 .hamburger-line {
@@ -523,9 +757,14 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85); /* Deep dark semi-transparent */
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
+    background: linear-gradient(
+        135deg,
+        rgba(0,0,0,0.82) 0%,
+        rgba(10,15,30,0.88) 50%,
+        rgba(0,5,20,0.85) 100%
+    );
+    backdrop-filter: blur(50px) saturate(180%);
+    -webkit-backdrop-filter: blur(50px) saturate(180%);
     z-index: 1000002;
     display: flex;
     justify-content: center;

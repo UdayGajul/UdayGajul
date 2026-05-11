@@ -22,11 +22,33 @@
 </head>
 
 <body>
+    <!-- SVG Liquid Glass Filter (hidden) -->
+    <svg width="0" height="0" style="position:absolute;pointer-events:none;">
+      <defs>
+        <filter id="liquid-glass-filter" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.018 0.022" numOctaves="3" seed="2" result="noise"/>
+          <feColorMatrix type="saturate" values="3" in="noise" result="coloredNoise"/>
+          <feDisplacementMap in="SourceGraphic" in2="coloredNoise" scale="14" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+          <feGaussianBlur in="displaced" stdDeviation="0.4" result="softened"/>
+          <feComposite in="softened" in2="SourceGraphic" operator="atop"/>
+        </filter>
+        <filter id="lg-glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+      </defs>
+    </svg>
+
     <!-- Custom Cursor -->
     <div class="custom-cursor" id="custom-cursor"></div>
     <div class="custom-cursor-label" id="custom-cursor-label">
         <span class="cursor-text"></span>
     </div>
+
+    <!-- Ambient Orbs for Liquid Glass depth field -->
+    <div class="lg-orb lg-orb-1"></div>
+    <div class="lg-orb lg-orb-2"></div>
+    <div class="lg-orb lg-orb-3"></div>
 
     <!-- Parallax Background -->
     <div class="parallax-bg" id="parallax-bg"></div>
@@ -44,7 +66,7 @@
         <section id="about" class="content-section">
             <h2 class="section-title fade-up">About Me</h2>
             <div class="glass-container fade-up">
-                <p class="reveal-text">I'm currently working as a Production Manager at Gajul Fabrics .I'm very curious about the possibilities of AI and want to know how new technologies will shape our future. Through a field project and a research project, I gained practical experience that improved my analytical and problem-solving abilities. During my masters, I participated in national-level competitions and was awarded second prize the first time and first prize the next.</p>
+                <p class="reveal-text">I'm currently pursuing an MTech in Data Science at SPPU Pune since I'm very curious about the possibilities of AI and want to know how new technologies will shape our future. Through a field project and a research project, I gained practical experience that improved my analytical and problem-solving abilities. During my masters, I participated in national-level competitions and was awarded second prize the first time and first prize the next.</p>
                 <p class="reveal-text" style="margin-top: 1rem;">Aside from my academic, I am a space enthusiast who is fascinated by the universe's mysteries. In addition, I routinely practice calisthenics, am dedicated to maintaining my own fitness, and like pushing myself by picking up new languages. I enjoy pushing boundaries, discovering new concepts, and continuously developing both personally and professionally.</p>
             </div>
         </section>
