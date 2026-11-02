@@ -1,40 +1,22 @@
 # Hi there, I'm Uday! 👋
 
-### 🚀 Data Engineer & Machine Learning Enthusiast
-I focus on building scalable data architectures, optimizing text-to-SQL workflows, and designing intelligent machine learning systems. I love bridging the gap between raw data complexity and production-ready applications.
-
 <p align="center">
-  <img src="https://githubusercontent.com" alt="Tech Coding Vibe" width="380" />
+  <a href="https://git.io">
+    <img src="https://herokuapp.com" alt="Typing SVG" />
+  </a>
 </p>
+
+### 🚀 About Me
+I focus on building scalable data architectures, optimizing text-to-SQL workflows, and designing intelligent machine learning systems. I love bridging the gap between raw data complexity and production-ready applications.
 
 ---
 
 ### 🛠️ Tech Stack & Tools
-
-<table>
-  <tr>
-    <td align="center" width="96">
-      <img src="https://githubusercontent.com" alt="Python" width="40" height="40" />
-      <br />Python
-    </td>
-    <td align="center" width="96">
-      <img src="https://githubusercontent.com" alt="SQL" width="40" height="40" />
-      <br />SQL
-    </td>
-    <td align="center" width="96">
-      <img src="https://githubusercontent.com" alt="TypeScript" width="40" height="40" />
-      <br />TypeScript
-    </td>
-    <td align="center" width="96">
-      <img src="https://githubusercontent.com" alt="VS Code" width="40" height="40" />
-      <br />VS Code
-    </td>
-    <td align="center" width="96">
-      <img src="https://githubusercontent.com" alt="Cloudflare" width="40" height="40" />
-      <br />Workers
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev" alt="My Skills" />
+  </a>
+</p>
 
 ---
 
@@ -48,8 +30,6 @@ I focus on building scalable data architectures, optimizing text-to-SQL workflow
 ---
 
 ### ⚡ Current Focus & Core Expertise
-
-<img src="https://githubusercontent.com" align="right" width="160" alt="AI Matrix Code Loop" />
 
 - **Text-to-SQL Optimization**: Fine-tuning Large Language Models for automated database schema parsing and query synthesis.
 - **Scalable Architectures**: Exploring LSM-tree storage engines and modern database indexing strategies.
