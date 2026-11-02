@@ -4,7 +4,7 @@
 I focus on building scalable data architectures, optimizing text-to-SQL workflows, and designing intelligent machine learning systems. I love bridging the gap between raw data complexity and production-ready applications.
 
 <p align="center">
-  <img src="https://vercel.app" alt="Coding Animation" width="400" />
+  <img src="https://githubusercontent.com" alt="Tech Coding Vibe" width="380" />
 </p>
 
 ---
@@ -49,20 +49,20 @@ I focus on building scalable data architectures, optimizing text-to-SQL workflow
 
 ### ⚡ Current Focus & Core Expertise
 
-<img src="https://giphy.com" align="right" width="180" alt="AI Network Animation" />
+<img src="https://githubusercontent.com" align="right" width="160" alt="AI Matrix Code Loop" />
 
 - **Text-to-SQL Optimization**: Fine-tuning Large Language Models for automated database schema parsing and query synthesis.
 - **Scalable Architectures**: Exploring LSM-tree storage engines and modern database indexing strategies.
-- **Applied ML**: Implementing classical statistical models (Naive Bayes, SVM, Clustering) alongside deep feed-forward neural networks.
+- **Applied ML**: Implementing classical statistical models (Naive Bayes, Decision Trees, SVM) alongside deep backpropagation concepts.
 
 ---
 
 ### 📂 Highlighted Projects
 
-#### 🔹 [Production & Payroll Management System](https://github.com/UdayGajul/Production-and-Payroll-Management-System-PPMS)
+#### 🔹 [Production & Payroll Management System](https://github.com)
 *Developed secure GUI platforms featuring integrated API endpoints to manage multi-factory workflow operations and tracking.*
 
-#### 🔹 [Mini-Projects Collection](https://github.com/UdayGajul/Mini-Projects)
+#### 🔹 [Mini-Projects Collection](https://github.com)
 *A playground for proof-of-concepts, automated scripts, and algorithmic problem-solving tools.*
 
 ---
@@ -70,7 +70,7 @@ I focus on building scalable data architectures, optimizing text-to-SQL workflow
 ### 🤝 Connect with Me
 
 <p align="left">
-  <a href="https://github.com/UdayGajul" target="_blank">
+  <a href="https://github.com" target="_blank">
     <img src="https://shields.io" alt="GitHub" />
   </a>
   <a href="mailto:udaygajul.work@gmail.com" target="_blank">
